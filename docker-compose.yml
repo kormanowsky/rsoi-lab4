@@ -3,7 +3,7 @@ services:
   cars: 
     depends_on:
       - cars-postgres
-    image: cars:latest
+    image: cr.yandex/$CR_REGISTRY/$CR_REPOSITORY-cars:$IMAGE_TAG
     container_name: cars
     pull_policy: never 
     build: 
@@ -32,7 +32,7 @@ services:
   rental: 
     depends_on:
       - rental-postgres
-    image: rental:latest
+    image: cr.yandex/$CR_REGISTRY/$CR_REPOSITORY-rental:$IMAGE_TAG
     container_name: rental
     pull_policy: never 
     build: 
@@ -61,7 +61,7 @@ services:
   payment: 
     depends_on: 
       - payment-postgres
-    image: payment:latest
+    image: cr.yandex/$CR_REGISTRY/$CR_REPOSITORY-payment:$IMAGE_TAG
     container_name: payment
     pull_policy: never 
     build: 
@@ -93,7 +93,7 @@ services:
       - rental
       - payment
       - gateway-redis
-    image: gateway:latest
+    image: cr.yandex/$CR_REGISTRY/$CR_REPOSITORY-gateway:$IMAGE_TAG
     container_name: gateway
     pull_policy: never 
     build: 
