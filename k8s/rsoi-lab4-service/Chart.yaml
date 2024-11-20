@@ -1,0 +1,4 @@
+apiVersion: v2
+name: rsoi-lab4-service
+version: 1.0.0
+

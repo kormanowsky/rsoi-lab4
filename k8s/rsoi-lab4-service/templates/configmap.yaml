@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap 
+metadata: 
+  name: {{ .Values.appName }}-configmap
+data: 
+  appConnectionString: {{ .Values.appConnectionString }}
+  appPort: {{ .Values.appPort | quote }}

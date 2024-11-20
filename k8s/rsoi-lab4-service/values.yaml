@@ -1,0 +1,5 @@
+appName: "test-app"
+appImage: "nginx:latest"
+appPort: 80
+appConnectionString: "just-for-test"
+exposedPort: 8054
