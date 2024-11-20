@@ -13,9 +13,10 @@ const
     paymentApiUrl = process.env.PAYMENT_API_URL!,
     rentalApiUrl = process.env.RENTAL_API_URL!,
     redisUrl = process.env.REDIS_CONN_STRING!,
-    parsedRedisUrl = new URL(redisUrl),
     noCircutBreakers = Boolean(process.env.NO_CIRCUIT_BREAKERS),
     noQueues = Boolean(process.env.NO_QUEUES);
+
+const parsedRedisUrl = noQueues ? null : new URL(redisUrl);
 
 const 
     carsClient = new CarsClient(carsApiUrl),
