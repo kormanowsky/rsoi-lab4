@@ -1,0 +1,5 @@
+appName: "api-gateway"
+appImage: "nginx:latest"
+appPort: 80
+appConnectionString: "just-for-test"
+exposedPort: 80
