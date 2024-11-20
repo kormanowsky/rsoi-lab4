@@ -1,5 +1,8 @@
-appName: "test-app"
+appName: "rsoi-lab4-app"
 appImage: "nginx:latest"
-appPort: 80
-appConnectionString: "just-for-test"
-exposedPort: 8054
+appPort: 8000
+appEnv:
+  PORT: "8000"
+  CONN_STRING: "just-for-test"
+exposedPort: 80
+registryCredSecret: "regcred"

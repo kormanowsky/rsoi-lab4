@@ -15,7 +15,12 @@ spec:
         appName: {{ .Values.appName }} 
     spec:
       containers:
-      - name: {{ .Values.appName }}
-        image: {{ .Values.appImage }}
-        ports:
-        - containerPort: {{ .Values.appPort }}
+        - name: {{ .Values.appName }}
+          image: {{ .Values.appImage }}
+          ports:
+          - containerPort: {{ .Values.appPort }}
+          envFrom:
+          - configMapRef:
+              name: {{ .Values.appName }}-configmap-env
+      imagePullSecrets:
+        - name: {{ .Values.registryCredSecret }}

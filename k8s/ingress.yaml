@@ -5,13 +5,12 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: rsoi-lab4.internal
-    http:
+  - http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: api-gateway-service
+            name: gateway-service
             port:
               number: 80

@@ -1,0 +1,7 @@
+appName: "gateway"
+appImage: "nginx:latest"
+appEnv: 
+  PORT: "8000"
+  CONN_STRING: "just-for-test"
+  NO_QUEUES: "1"
+  NO_CIRCUIT_BREAKERS: "1"
