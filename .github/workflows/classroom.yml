@@ -157,26 +157,10 @@ jobs:
             --kubeconfig .kubeconfig \
             payment ./rsoi-lab4-app
 
-    # - name: Run containers
-    #   timeout-minutes: 5
-    #   run: |
-    #     docker compose up -d
-    #     ./scripts/wait-script.sh
-    #   env:
-    #     CARS_POSTGRES_USER: ${{secrets.CARS_POSTGRES_USER}}
-    #     CARS_POSTGRES_PASSWORD: ${{secrets.CARS_POSTGRES_PASSWORD}}
-    #     CARS_POSTGRES_DB: ${{secrets.CARS_POSTGRES_DB}}
-    #     CARS_STORAGE_CONN_STRING: ${{secrets.CARS_STORAGE_CONN_STRING}}
-    #     PAYMENT_POSTGRES_USER: ${{secrets.PAYMENT_POSTGRES_USER}}
-    #     PAYMENT_POSTGRES_PASSWORD: ${{secrets.PAYMENT_POSTGRES_PASSWORD}}
-    #     PAYMENT_POSTGRES_DB: ${{secrets.PAYMENT_POSTGRES_DB}}
-    #     PAYMENT_STORAGE_CONN_STRING: ${{secrets.PAYMENT_STORAGE_CONN_STRING}}
-    #     RENTAL_POSTGRES_USER: ${{secrets.RENTAL_POSTGRES_USER}}
-    #     RENTAL_POSTGRES_PASSWORD: ${{secrets.RENTAL_POSTGRES_PASSWORD}}
-    #     RENTAL_POSTGRES_DB: ${{secrets.RENTAL_POSTGRES_DB}}
-    #     RENTAL_STORAGE_CONN_STRING: ${{secrets.RENTAL_STORAGE_CONN_STRING}}
-    #     GATEWAY_REDIS_CONN_STRING: ${{secrets.GATEWAY_REDIS_CONN_STRING}}
-    #     WAIT_PORTS: 8080,8070,8060,8050
+      - name: Prepare API Tests
+        run: |
+          cd v3/postman
+          echo '[{ "key": "baseUrl", "value": "${{ vars.PUBLIC_URL }}" }]' > environment.json
 
       - name: Run API Tests
         uses: matt-ball/newman-action@master
