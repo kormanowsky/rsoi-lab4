@@ -126,6 +126,11 @@ jobs:
 
           helm upgrade \
             --install --force \
+            --kubeconfig .kubeconfig \
+            gateway-redis ./redis
+
+          helm upgrade \
+            --install --force \
             -f values.gateway.yaml \
             --set appImage="cr.yandex/$CR_REGISTRY/$CR_REPOSITORY-gateway:$IMAGE_TAG" \
             --kubeconfig .kubeconfig \
