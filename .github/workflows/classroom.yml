@@ -87,6 +87,20 @@ jobs:
             --docker-password="$DOCKER_PASSWORD" \
             --kubeconfig .kubeconfig
 
+          helm pull oci://cr.yandex/yc-marketplace/yandex-cloud/ingress-nginx/chart/ingress-nginx \
+            --version 4.10.0 \
+            --untar
+
+          helm upgrade \
+            --install --force \
+            --kubeconfig .kubeconfig \
+            nginx-ingress ./ingress-nginx
+
+          helm upgrade \
+            --install --force \
+            --kubeconfig .kubeconfig \
+            rsoi-lab4-ingress ./rsoi-lab4-ingress
+
           helm upgrade \
             --install --force \
             -f values.gateway.yaml \
@@ -114,16 +128,6 @@ jobs:
             --set appImage="cr.yandex/$CR_REGISTRY/$CR_REPOSITORY-payment:$IMAGE_TAG" \
             --kubeconfig .kubeconfig \
             payment ./rsoi-lab4-app
-
-          helm pull oci://cr.yandex/yc-marketplace/yandex-cloud/ingress-nginx/chart/ingress-nginx \
-            --version 4.10.0 \
-            --untar
-          
-          helm upgrade \
-            --install --force \
-            -f values.ingress-nginx.yaml \
-            --kubeconfig .kubeconfig \
-            ingress-nginx ./ingress-nginx
 
     # - name: Run containers
     #   timeout-minutes: 5

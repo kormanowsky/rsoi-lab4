@@ -1,0 +1,3 @@
+ingressName: "rsoi-lab4-ingress"
+backendService: "gateway-service"
+backendPort: 80
