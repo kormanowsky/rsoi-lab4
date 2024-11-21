@@ -91,15 +91,34 @@ jobs:
             --version 4.10.0 \
             --untar
 
+          helm pull oci://registry-1.docker.io/bitnamicharts/postgresql \
+            --version 17.1.0 \
+            --untar
+
           helm upgrade \
             --install --force \
             --kubeconfig .kubeconfig \
-            nginx-ingress ./ingress-nginx
+            ingress-nginx ./ingress-nginx
 
           helm upgrade \
             --install --force \
             --kubeconfig .kubeconfig \
             rsoi-lab4-ingress ./rsoi-lab4-ingress
+
+          helm upgrade \
+            --install --force \
+            --kubeconfig .kubeconfig \
+            cars-postgresql ./postgresql
+
+          helm upgrade \
+            --install --force \
+            --kubeconfig .kubeconfig \
+            rental-postgresql ./postgresql
+
+          helm upgrade \
+            --install --force \
+            --kubeconfig .kubeconfig \
+            payment-postgresql ./postgresql
 
           helm upgrade \
             --install --force \
