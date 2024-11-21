@@ -109,15 +109,26 @@ jobs:
             --kubeconfig .kubeconfig \
             rsoi-lab4-ingress ./rsoi-lab4-ingress
 
+          mkdir ./postgresql/files
+          cp ../postgres/cars/*.sql ./postgresql/files
+
           helm upgrade \
             --install --force \
             --kubeconfig .kubeconfig \
             cars-postgresql ./postgresql
 
+          rm -rf ./postgresql/files
+          mkdir ./postgresql/files
+          cp ../postgres/rental/*.sql ./postgresql/files
+
           helm upgrade \
             --install --force \
             --kubeconfig .kubeconfig \
             rental-postgresql ./postgresql
+
+          rm -rf ./postgresql/files
+          mkdir ./postgresql/files
+          cp ../postgres/payment/*.sql ./postgresql/files
 
           helm upgrade \
             --install --force \
