@@ -27,13 +27,16 @@ spec:
                 name: {{ .Values.appName }}-postgresql
                 key: postgres-password
           {{- end}}
+          {{- if .Values.hasRedis }}
+          - name: REDIS_PASSWORD
+            valueFrom: 
+              secretKeyRef: 
+                name: {{ .Values.appName }}-redis
+                key: redis-password
+          {{- end}}
           {{- range $k, $v := .Values.appEnv }}
           - name: {{ $k }}
             value: {{ $v | quote }}
           {{- end }}
-      imagePullSecrets:- name: POSTGRES_PASSWORD
-      valueFrom:
-        secretKeyRef:
-          name: postgres-secret
-          key: PG_PASS
+      imagePullSecrets:
         - name: {{ .Values.registryCredSecret }}
