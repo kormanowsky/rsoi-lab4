@@ -6,3 +6,4 @@ appEnv:
   CONN_STRING: "just-for-test"
 exposedPort: 80
 registryCredSecret: "regcred"
+replicas: 1

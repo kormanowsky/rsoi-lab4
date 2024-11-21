@@ -79,20 +79,44 @@ jobs:
         run: | 
           cd k8s
           kubectl proxy --port 8080 --kubeconfig .kubeconfig &
+
           kubectl delete secret regcred --kubeconfig .kubeconfig
           kubectl create secret docker-registry regcred \
             --docker-server="cr.yandex" \
             --docker-username="$DOCKER_USERNAME" \
             --docker-password="$DOCKER_PASSWORD" \
             --kubeconfig .kubeconfig
+
           helm upgrade \
             --install --force \
             -f values.gateway.yaml \
             --set appImage="cr.yandex/$CR_REGISTRY/$CR_REPOSITORY-gateway:$IMAGE_TAG" \
             --kubeconfig .kubeconfig \
             gateway ./rsoi-lab4-app
-          echo "TODO: install other services"
+
+          helm upgrade \
+            --install --force \
+            -f values.cars.yaml \
+            --set appImage="cr.yandex/$CR_REGISTRY/$CR_REPOSITORY-cars:$IMAGE_TAG" \
+            --kubeconfig .kubeconfig \
+            cars ./rsoi-lab4-app
+
+          helm upgrade \
+            --install --force \
+            -f values.rental.yaml \
+            --set appImage="cr.yandex/$CR_REGISTRY/$CR_REPOSITORY-rental:$IMAGE_TAG" \
+            --kubeconfig .kubeconfig \
+            rental ./rsoi-lab4-app
+
+          helm upgrade \
+            --install --force \
+            -f values.payment.yaml \
+            --set appImage="cr.yandex/$CR_REGISTRY/$CR_REPOSITORY-payment:$IMAGE_TAG" \
+            --kubeconfig .kubeconfig \
+            payment ./rsoi-lab4-app
+
           kubectl apply -f ingress.yaml --kubeconfig .kubeconfig || true
+
           kubectl get all
 
     # - name: Run containers

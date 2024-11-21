@@ -1,0 +1,5 @@
+appName: "rental"
+appImage: "nginx:latest"
+appEnv: 
+  PORT: "8000"
+  CONN_STRING: "just-for-test"
