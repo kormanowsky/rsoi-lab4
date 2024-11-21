@@ -1,0 +1,2 @@
+tcp: {80: "default/gateway-service:80"}
+portNamePrefix: "gateway"
