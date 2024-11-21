@@ -92,7 +92,11 @@ jobs:
             --untar
 
           helm pull oci://registry-1.docker.io/bitnamicharts/postgresql \
-            --version 17.1.0 \
+            --version 16.2.1 \
+            --untar
+
+          helm pull oci://registry-1.docker.io/bitnamicharts/redis \
+            --version 20.3.0 \
             --untar
 
           helm upgrade \
