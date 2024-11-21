@@ -67,9 +67,23 @@ jobs:
         env: 
           MANAGED_K8S_CLUSTER: ${{ vars.YC_MANAGED_K8S_CLUSTER }}
         run: |
-          yc managed-kubernetes cluster get-credentials $MANAGED_K8S_CLUSTER --external --kubeconfig .kubeconfig
-          kubectl get namespace --kubeconfig .kubeconfig
-          rm -f .kubeconfig
+          yc managed-kubernetes cluster get-credentials $MANAGED_K8S_CLUSTER --external --kubeconfig k8s/.kubeconfig
+      
+      - name: Deploy To Managed Kubernetes Cluster
+        env: 
+          CR_REGISTRY: ${{ vars.YC_CR_REGISTRY }}
+          CR_REPOSITORY: ${{ vars.YC_CR_REPOSITORY }}
+          IMAGE_TAG: v.${{ github.sha }}
+        run: | 
+          cd k8s
+          helm install \
+            -f values.gateway.yaml \
+            --set appImage="cr.yandex/$CR_REGISTRY/$CR_REPOSITORY-gateway:$IMAGE_TAG" \
+            --kubeconfig .kubeconfig \
+            gateway ./rsoi-lab4-app
+          echo "TODO: install other services"
+          kubectl apply -f ingress.yaml --kubeconfig .kubeconfig
+          kubectl get all
 
     # - name: Run containers
     #   timeout-minutes: 5
