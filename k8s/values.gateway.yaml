@@ -1,7 +1,7 @@
 appName: "gateway"
 appImage: "nginx:latest"
 appEnv:
-  REDIS_CONN_STRING: "redis://default:$(REDIS_PASSWORD)@gateway-redis:6379/"
+  REDIS_CONN_STRING: "redis://default:$(REDIS_PASSWORD)@gateway-redis-master:6379/"
   CARS_API_URL: "http://cars-deployment/api/v1"
   RENTAL_API_URL: "http://rental-deployment/api/v1"
   PAYMENT_API_URL: "http://payment-deployment/api/v1"
