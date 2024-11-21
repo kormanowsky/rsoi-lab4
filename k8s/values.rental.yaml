@@ -1,4 +1,4 @@
 appName: "rental"
 appEnv: 
-  CONN_STRING: "postgresql://postgres:$POSTGRES_PASSWORD@rental-postgresql:5432/postgres"
+  CONN_STRING: "postgresql://postgres:$(POSTGRES_PASSWORD)@rental-postgresql:5432/postgres"
 hasPostgresql: true

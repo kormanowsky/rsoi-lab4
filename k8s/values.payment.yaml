@@ -1,4 +1,4 @@
 appName: "payment"
 appEnv: 
-  CONN_STRING: "postgresql://postgres:$POSTGRES_PASSWORD@payment-postgresql:5432/postgres"
+  CONN_STRING: "postgresql://postgres:$(POSTGRES_PASSWORD)@payment-postgresql:5432/postgres"
 hasPostgresql: true
