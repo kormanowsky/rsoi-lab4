@@ -54,6 +54,24 @@ jobs:
           docker compose build && docker compose push 
           test "$REF_NAME" = "master" && (IMAGE_TAG=stable docker compose build && IMAGE_TAG=stable docker compose push) || true
 
+      - name: Install Yandex Cloud CLI
+        run: |
+          curl https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash -s -- -a
+
+      - name: Login To Yandex Cloud CLI 
+        run: |
+          echo ${{ secrets.YC_SA_JSON_CREDENTIALS }} > key.json
+          yc config set service-account-key key.json
+          rm -f key.json
+      
+      - name: Get Managed Kubernetes Cluster Credentials 
+        env: 
+          MANAGED_K8S_CLUSTER: ${{ vars.YC_MANAGED_K8S_CLUSTER }}
+        run: |
+          yc managed-kubernetes cluster get-credentials $MANAGED_K8S_CLUSTER --external --kubeconfig .kubeconfig
+          kubectl get namespace --kubeconfig .kubeconfig
+          rm -f .kubeconfig
+
     # - name: Run containers
     #   timeout-minutes: 5
     #   run: |
