@@ -78,11 +78,13 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.YC_DOCKER_PASSWORD }}
         run: | 
           cd k8s
+          kubectl proxy --port 8080 --kubeconfig .kubeconfig &
           kubectl create secret docker-registry regcred \
             --docker-server="cr.yandex" \
             --docker-username="$DOCKER_USERNAME" \
-            --docker-password="$DOCKER_PASSWORD"
-            --kubeconfig .kubeconfig
+            --docker-password="$DOCKER_PASSWORD" \
+            --kubeconfig .kubeconfig \
+            --force
           helm upgrade \
             --install --force \
             -f values.gateway.yaml \
