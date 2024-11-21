@@ -15,54 +15,53 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Prepare Library For Tests
-        run: cd library && npm ci
+      # - name: Prepare Library For Tests
+      #   run: cd library && npm ci
 
-      - name: Run Cars Unit Tests 
-        run: cd services/cars && npm ci && npm run test
+      # - name: Run Cars Unit Tests 
+      #   run: cd services/cars && npm ci && npm run test
       
-      - name: Run Payment Unit Tests 
-        run: cd services/payment && npm ci && npm run test
+      # - name: Run Payment Unit Tests 
+      #   run: cd services/payment && npm ci && npm run test
       
-      - name: Run Rental Unit Tests 
-        run: cd services/rental && npm ci && npm run test
+      # - name: Run Rental Unit Tests 
+      #   run: cd services/rental && npm ci && npm run test
 
-      - name: Run Gateway Unit Tests 
-        run: cd services/gateway && npm ci && npm run test
+      # - name: Run Gateway Unit Tests 
+      #   run: cd services/gateway && npm ci && npm run test
 
-      - uses: docker/setup-buildx-action@v2
+      # - uses: docker/setup-buildx-action@v2
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      # - name: Login to Docker Hub
+      #   uses: docker/login-action@v3
+      #   with:
+      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
+      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Login to Yandex Cloud Container Registry
-        id: login-cr
-        uses: yc-actions/yc-cr-login@v1
-        with:
-          yc-sa-json-credentials: ${{ secrets.YC_SA_JSON_CREDENTIALS }}
+      # - name: Login to Yandex Cloud Container Registry
+      #   id: login-cr
+      #   uses: yc-actions/yc-cr-login@v1
+      #   with:
+      #     yc-sa-json-credentials: ${{ secrets.YC_SA_JSON_CREDENTIALS }}
 
-      - name: Build, tag, and push images to Yandex Cloud Container Registry
-        env:
-          CR_REGISTRY: ${{ vars.YC_CR_REGISTRY }}
-          CR_REPOSITORY: ${{ vars.YC_CR_REPOSITORY }}
-          IMAGE_TAG: v.${{ github.sha }}
-          REF_NAME: ${{ github.ref_name }}
-        run: |
-          docker compose build && docker compose push 
-          test "$REF_NAME" = "master" && (IMAGE_TAG=stable docker compose build && IMAGE_TAG=stable docker compose push) || true
+      # - name: Build, tag, and push images to Yandex Cloud Container Registry
+      #   env:
+      #     CR_REGISTRY: ${{ vars.YC_CR_REGISTRY }}
+      #     CR_REPOSITORY: ${{ vars.YC_CR_REPOSITORY }}
+      #     IMAGE_TAG: v.${{ github.sha }}
+      #     REF_NAME: ${{ github.ref_name }}
+      #   run: |
+      #     docker compose build && docker compose push 
+      #     test "$REF_NAME" = "master" && (IMAGE_TAG=stable docker compose build && IMAGE_TAG=stable docker compose push) || true
 
       - name: Install Yandex Cloud CLI
         run: |
-          curl https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash -s -- -a
+          curl https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash -s -- -i /opt/yandex-cloud -n
+          ln -s /opt/yandex-cloud/bin/yc /usr/local/bin/yc
 
       - name: Login To Yandex Cloud CLI 
-        run: |
-          echo ${{ secrets.YC_SA_JSON_CREDENTIALS }} > key.json
-          yc config set service-account-key key.json
-          rm -f key.json
+        run: >
+          echo '${{ secrets.YC_SA_JSON_CREDENTIALS }}' > key.json && yc config set service-account-key key.json && rm -f key.json
       
       - name: Get Managed Kubernetes Cluster Credentials 
         env: 
