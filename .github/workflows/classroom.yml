@@ -74,8 +74,15 @@ jobs:
           CR_REGISTRY: ${{ vars.YC_CR_REGISTRY }}
           CR_REPOSITORY: ${{ vars.YC_CR_REPOSITORY }}
           IMAGE_TAG: v.${{ github.sha }}
+          DOCKER_USERNAME: ${{ secrets.YC_DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.YC_DOCKER_PASSWORD }}
         run: | 
           cd k8s
+          kubectl create secret docker-registry regcred \
+            --docker-server="cr.yandex" \
+            --docker-username="$DOCKER_USERNAME" \
+            --docker-password="$DOCKER_PASSWORD"
+            --kubeconfig .kubeconfig
           helm upgrade \
             --install --force \
             -f values.gateway.yaml \
@@ -83,7 +90,7 @@ jobs:
             --kubeconfig .kubeconfig \
             gateway ./rsoi-lab4-app
           echo "TODO: install other services"
-          kubectl apply -f ingress.yaml --kubeconfig .kubeconfig
+          kubectl apply -f ingress.yaml --kubeconfig .kubeconfig || true
           kubectl get all
 
     # - name: Run containers
