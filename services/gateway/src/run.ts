@@ -16,8 +16,6 @@ const
     noCircutBreakers = Boolean(process.env.NO_CIRCUIT_BREAKERS),
     noQueues = Boolean(process.env.NO_QUEUES);
 
-const parsedRedisUrl = noQueues ? null : new URL(redisUrl);
-
 const 
     carsClient = new CarsClient(carsApiUrl),
     paymentsClient = new PaymentsClient(paymentApiUrl),
@@ -37,8 +35,7 @@ const rentalRetrievalLogic = noCircutBreakers ?
 
 const queue = noQueues ? null : new Queue('rsoi-lab3', {
     redis: {
-        host: parsedRedisUrl.hostname,
-        port: parseInt(parsedRedisUrl.port, 10)
+        url: redisUrl
     },
 });
 
