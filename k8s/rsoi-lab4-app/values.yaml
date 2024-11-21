@@ -2,8 +2,6 @@ appName: "rsoi-lab4-app"
 appImage: "nginx:latest"
 appPort: 8000
 appEnv:
-  PORT: "8000"
-  CONN_STRING: "just-for-test"
 exposedPort: 80
 registryCredSecret: "regcred"
 replicas: 1
