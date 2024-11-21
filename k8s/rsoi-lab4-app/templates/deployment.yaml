@@ -19,8 +19,21 @@ spec:
           image: {{ .Values.appImage }}
           ports:
           - containerPort: {{ .Values.appPort }}
-          envFrom:
-          - configMapRef:
-              name: {{ .Values.appName }}-configmap-env
-      imagePullSecrets:
+          env:
+          {{- if .Values.hasPostgresql }}
+          - name: POSTGRES_PASSWORD
+            valueFrom: 
+              secretKeyRef: 
+                name: {{ .Values.appName }}-postgresql
+                key: postgres-password
+          {{- end}}
+          {{- range $k, $v := .Values.appEnv }}
+          - name: {{ $k }}
+            value: {{ $v | quote }}
+          {{- end }}
+      imagePullSecrets:- name: POSTGRES_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: postgres-secret
+          key: PG_PASS
         - name: {{ .Values.registryCredSecret }}

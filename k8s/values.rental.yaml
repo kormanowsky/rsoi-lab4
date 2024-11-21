@@ -1,5 +1,4 @@
 appName: "rental"
-appImage: "nginx:latest"
 appEnv: 
-  PORT: "8000"
-  CONN_STRING: "just-for-test"
+  CONN_STRING: "postgresql://postgres:$POSTGRES_PASSWORD@rental-postgresql:5432/postgres"
+hasPostgresql: true
