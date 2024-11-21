@@ -76,7 +76,8 @@ jobs:
           IMAGE_TAG: v.${{ github.sha }}
         run: | 
           cd k8s
-          helm install \
+          helm upgrade \
+            --install --force \
             -f values.gateway.yaml \
             --set appImage="cr.yandex/$CR_REGISTRY/$CR_REPOSITORY-gateway:$IMAGE_TAG" \
             --kubeconfig .kubeconfig \
