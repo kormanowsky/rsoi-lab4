@@ -1,6 +1,5 @@
 appName: "gateway"
 appEnv:
-  REDIS_CONN_STRING: "redis://default:$(REDIS_PASSWORD)@gateway-redis-master:6379/"
   CARS_API_URL: "http://cars-service/api/v1/cars/"
   RENTAL_API_URL: "http://rental-service/api/v1/rentals/"
   PAYMENT_API_URL: "http://payment-service/api/v1/payments/"

@@ -26,6 +26,11 @@ spec:
               secretKeyRef: 
                 name: {{ .Values.appName }}-postgresql
                 key: postgres-password
+          - name: POSTGRES_CONN_STRING
+            valueFrom: 
+              secretKeyRef: 
+                name: {{ .Values.appName }}-postgresql-conn-string
+                key: conn-string
           {{- end}}
           {{- if .Values.hasRedis }}
           - name: REDIS_PASSWORD
@@ -33,6 +38,11 @@ spec:
               secretKeyRef: 
                 name: {{ .Values.appName }}-redis
                 key: redis-password
+          - name: REDIS_CONN_STRING
+            valueFrom: 
+              secretKeyRef: 
+                name: {{ .Values.appName }}-redis-conn-string
+                key: conn-string
           {{- end}}
           {{- range $k, $v := .Values.appEnv }}
           - name: {{ $k }}
