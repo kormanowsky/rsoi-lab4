@@ -120,61 +120,61 @@ jobs:
             --untar
 
           helm upgrade \
-            --install \
+            --install --atomic --wait \
             --kubeconfig .kubeconfig \
             ingress-nginx ./ingress-nginx
 
           helm upgrade \
-            --install \
+            --install --atomic --wait \
             --kubeconfig .kubeconfig \
             rsoi-lab4-ingress ./rsoi-lab4-ingress
 
           helm upgrade \
-            --install \
+            --install --atomic --wait \
             -f values.cars-postgresql.yaml \
             --kubeconfig .kubeconfig \
             cars-postgresql ./postgresql
 
           helm upgrade \
-            --install \
+            --install --atomic --wait \
             -f values.rental-postgresql.yaml \
             --kubeconfig .kubeconfig \
             rental-postgresql ./postgresql
 
           helm upgrade \
-            --install \
+            --install --atomic --wait \
             -f values.payment-postgresql.yaml \
             --kubeconfig .kubeconfig \
             payment-postgresql ./postgresql
 
           helm upgrade \
-            --install \
+            --install --atomic --wait \
             --kubeconfig .kubeconfig \
             gateway-redis ./redis
 
           helm upgrade \
-            --install --force \
+            --install --atomic --wait --force \
             -f values.gateway.yaml \
             --set appImage="cr.yandex/$CR_REGISTRY/$CR_REPOSITORY-gateway:$IMAGE_TAG" \
             --kubeconfig .kubeconfig \
             gateway ./rsoi-lab4-app
 
           helm upgrade \
-            --install --force \
+            --install --atomic --wait --force \
             -f values.cars.yaml \
             --set appImage="cr.yandex/$CR_REGISTRY/$CR_REPOSITORY-cars:$IMAGE_TAG" \
             --kubeconfig .kubeconfig \
             cars ./rsoi-lab4-app
 
           helm upgrade \
-            --install --force \
+            --install --atomic --wait --force \
             -f values.rental.yaml \
             --set appImage="cr.yandex/$CR_REGISTRY/$CR_REPOSITORY-rental:$IMAGE_TAG" \
             --kubeconfig .kubeconfig \
             rental ./rsoi-lab4-app
 
           helm upgrade \
-            --install --force \
+            --install --atomic --wait --force \
             -f values.payment.yaml \
             --set appImage="cr.yandex/$CR_REGISTRY/$CR_REPOSITORY-payment:$IMAGE_TAG" \
             --kubeconfig .kubeconfig \
