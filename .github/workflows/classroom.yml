@@ -183,7 +183,7 @@ jobs:
       - name: Wait For Deployment 
         run: |
           cd scripts
-          ./wait-for.sh -t 120 "${{ vars.PUBLIC_URL }}/api/v1/cars"
+          ./wait-for.sh -t 180 "${{ vars.PUBLIC_URL }}/api/v1/cars"
 
       - name: Prepare API Tests
         run: |
