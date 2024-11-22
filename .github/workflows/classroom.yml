@@ -120,35 +120,35 @@ jobs:
             --untar
 
           helm upgrade \
-            --install --force \
+            --install \
             --kubeconfig .kubeconfig \
             ingress-nginx ./ingress-nginx
 
           helm upgrade \
-            --install --force \
+            --install \
             --kubeconfig .kubeconfig \
             rsoi-lab4-ingress ./rsoi-lab4-ingress
 
           helm upgrade \
-            --install --force \
+            --install \
             -f values.cars-postgresql.yaml \
             --kubeconfig .kubeconfig \
             cars-postgresql ./postgresql
 
           helm upgrade \
-            --install --force \
+            --install \
             -f values.rental-postgresql.yaml \
             --kubeconfig .kubeconfig \
             rental-postgresql ./postgresql
 
           helm upgrade \
-            --install --force \
+            --install \
             -f values.payment-postgresql.yaml \
             --kubeconfig .kubeconfig \
             payment-postgresql ./postgresql
 
           helm upgrade \
-            --install --force \
+            --install \
             --kubeconfig .kubeconfig \
             gateway-redis ./redis
 
