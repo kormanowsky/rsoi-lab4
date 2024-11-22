@@ -160,6 +160,11 @@ jobs:
             --kubeconfig .kubeconfig \
             payment ./rsoi-lab4-app
 
+      - name: Wait For Deployment 
+        run: |
+          cd scripts
+          ./wait-for.sh -t 120 "${{ vars.PUBLIC_URL }}/api/v1/cars"
+
       - name: Prepare API Tests
         run: |
           cd v3/postman
