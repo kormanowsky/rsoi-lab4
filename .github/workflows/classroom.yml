@@ -80,29 +80,29 @@ jobs:
           cd k8s
           kubectl proxy --port 8080 --kubeconfig .kubeconfig &
 
-          kubectl delete secret regcred --kubeconfig .kubeconfig
+          kubectl delete secret regcred --kubeconfig .kubeconfig || true
           kubectl create secret docker-registry regcred \
             --docker-server="cr.yandex" \
             --docker-username="$DOCKER_USERNAME" \
             --docker-password="$DOCKER_PASSWORD" \
             --kubeconfig .kubeconfig
 
-          kubectl delete secret cars-postgresql-conn-string --kubeconfig .kubeconfig
+          kubectl delete secret cars-postgresql-conn-string --kubeconfig .kubeconfig || true
           kubectl create secret generic cars-postgresql-conn-string \
             --from-literal=conn-string='${{ secrets.CARS_POSTGRES_CONN_STRING }}' \
             --kubeconfig .kubeconfig
 
-          kubectl delete secret payment-postgresql-conn-string --kubeconfig .kubeconfig
+          kubectl delete secret payment-postgresql-conn-string --kubeconfig .kubeconfig || true
           kubectl create secret generic payment-postgresql-conn-string \
             --from-literal=conn-string='${{ secrets.PAYMENT_POSTGRES_CONN_STRING }}' \
             --kubeconfig .kubeconfig
 
-          kubectl delete secret rental-postgresql-conn-string --kubeconfig .kubeconfig
+          kubectl delete secret rental-postgresql-conn-string --kubeconfig .kubeconfig || true
           kubectl create secret generic rental-postgresql-conn-string \
             --from-literal=conn-string='${{ secrets.RENTAL_POSTGRES_CONN_STRING }}' \
             --kubeconfig .kubeconfig
 
-          kubectl delete secret gateway-redis-conn-string --kubeconfig .kubeconfig
+          kubectl delete secret gateway-redis-conn-string --kubeconfig .kubeconfig || true
           kubectl create secret generic gateway-redis-conn-string \
             --from-literal=conn-string='${{ secrets.GATEWAY_REDIS_CONN_STRING }}' \
             --kubeconfig .kubeconfig
