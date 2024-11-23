@@ -107,22 +107,22 @@ jobs:
 
           kubectl delete secret cars-postgresql-conn-string --kubeconfig .kubeconfig || true
           kubectl create secret generic cars-postgresql-conn-string \
-            --from-literal=conn-string='${{ secrets.CARS_POSTGRES_CONN_STRING }}' \
+            --from-literal=conn-string="${{ secrets.CARS_POSTGRES_CONN_STRING }}" \
             --kubeconfig .kubeconfig
 
           kubectl delete secret payment-postgresql-conn-string --kubeconfig .kubeconfig || true
           kubectl create secret generic payment-postgresql-conn-string \
-            --from-literal=conn-string='${{ secrets.PAYMENT_POSTGRES_CONN_STRING }}' \
+            --from-literal=conn-string="${{ secrets.PAYMENT_POSTGRES_CONN_STRING }}" \
             --kubeconfig .kubeconfig
 
           kubectl delete secret rental-postgresql-conn-string --kubeconfig .kubeconfig || true
           kubectl create secret generic rental-postgresql-conn-string \
-            --from-literal=conn-string='${{ secrets.RENTAL_POSTGRES_CONN_STRING }}' \
+            --from-literal=conn-string="${{ secrets.RENTAL_POSTGRES_CONN_STRING }}" \
             --kubeconfig .kubeconfig
 
           kubectl delete secret gateway-redis-conn-string --kubeconfig .kubeconfig || true
           kubectl create secret generic gateway-redis-conn-string \
-            --from-literal=conn-string='${{ secrets.GATEWAY_REDIS_CONN_STRING }}' \
+            --from-literal=conn-string="${{ secrets.GATEWAY_REDIS_CONN_STRING }}" \
             --kubeconfig .kubeconfig
 
           helm pull oci://cr.yandex/yc-marketplace/yandex-cloud/ingress-nginx/chart/ingress-nginx \

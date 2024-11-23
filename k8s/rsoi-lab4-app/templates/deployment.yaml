@@ -21,11 +21,6 @@ spec:
           - containerPort: {{ .Values.appPort }}
           env:
           {{- if .Values.hasPostgresql }}
-          - name: POSTGRES_PASSWORD
-            valueFrom: 
-              secretKeyRef: 
-                name: {{ .Values.appName }}-postgresql
-                key: postgres-password
           - name: POSTGRES_CONN_STRING
             valueFrom: 
               secretKeyRef: 
@@ -33,11 +28,6 @@ spec:
                 key: conn-string
           {{- end}}
           {{- if .Values.hasRedis }}
-          - name: REDIS_PASSWORD
-            valueFrom: 
-              secretKeyRef: 
-                name: {{ .Values.appName }}-redis
-                key: redis-password
           - name: REDIS_CONN_STRING
             valueFrom: 
               secretKeyRef: 
