@@ -7,8 +7,8 @@ on:
     branches:
       - master
 jobs:
-  build:
-    name: Autograding
+  unit_tests:
+    name: Unit Tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -28,7 +28,15 @@ jobs:
         run: cd services/rental && npm ci && npm run test
 
       - name: Run Gateway Unit Tests 
-        run: cd services/gateway && npm ci && npm run test
+        run: cd services/gateway && npm ci && npm run tes
+
+  images: 
+    name: Build And Publish Images 
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - uses: docker/setup-buildx-action@v2
 
@@ -53,6 +61,15 @@ jobs:
         run: |
           docker compose build && docker compose push 
           test "$REF_NAME" = "master" && (IMAGE_TAG=stable docker compose build && IMAGE_TAG=stable docker compose push) || true
+
+  deploy: 
+    needs: [images]
+    name: Deploy 
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Install Yandex Cloud CLI
         run: |
@@ -179,6 +196,15 @@ jobs:
             --set appImage="cr.yandex/$CR_REGISTRY/$CR_REPOSITORY-gateway:$IMAGE_TAG" \
             --kubeconfig .kubeconfig \
             gateway ./rsoi-lab4-app
+  
+  api_tests:
+    needs: [deploy]
+    name: API Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Prepare API Tests
         run: |
