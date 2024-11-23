@@ -120,35 +120,35 @@ jobs:
             --untar
 
           helm upgrade \
-            --install --atomic --wait \
+            --install --atomic --wait --force \
             --kubeconfig .kubeconfig \
             ingress-nginx ./ingress-nginx
 
           helm upgrade \
-            --install --atomic --wait \
+            --install --atomic --wait --force \
             --kubeconfig .kubeconfig \
             rsoi-lab4-ingress ./rsoi-lab4-ingress
 
           helm upgrade \
-            --install --atomic --wait \
+            --install --atomic --wait --force \
             -f values.cars-postgresql.yaml \
             --kubeconfig .kubeconfig \
             cars-postgresql ./postgresql
 
           helm upgrade \
-            --install --atomic --wait \
+            --install --atomic --wait --force \
             -f values.rental-postgresql.yaml \
             --kubeconfig .kubeconfig \
             rental-postgresql ./postgresql
 
           helm upgrade \
-            --install --atomic --wait \
+            --install --atomic --wait --force \
             -f values.payment-postgresql.yaml \
             --kubeconfig .kubeconfig \
             payment-postgresql ./postgresql
 
           helm upgrade \
-            --install --atomic --wait \
+            --install --atomic --wait --force \
             --kubeconfig .kubeconfig \
             gateway-redis ./redis
 
