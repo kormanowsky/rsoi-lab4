@@ -87,6 +87,7 @@ jobs:
           yc managed-kubernetes cluster get-credentials $MANAGED_K8S_CLUSTER --external --kubeconfig k8s/.kubeconfig
       
       - name: Deploy To Managed Kubernetes Cluster
+        id: deploy_to_k8s_cluster
         env: 
           CR_REGISTRY: ${{ vars.YC_CR_REGISTRY }}
           CR_REPOSITORY: ${{ vars.YC_CR_REPOSITORY }}
@@ -197,7 +198,11 @@ jobs:
             --set appImage="cr.yandex/$CR_REGISTRY/$CR_REPOSITORY-gateway:$IMAGE_TAG" \
             --kubeconfig .kubeconfig \
             gateway ./rsoi-lab4-app
-  
+
+          echo "PUBLIC_URL=http://$(kubectl get services ingress-nginx-controller -o jsonpath='{.status.loadBalancer.ingress[0].ip}')" >> "$GITHUB_OUTPUT"
+    outputs: 
+      PUBLIC_URL: ${{ steps.deploy_to_k8s_cluster.outputs.PUBLIC_URL }}
+
   api_tests:
     needs: [deploy]
     name: API Tests
@@ -210,7 +215,7 @@ jobs:
       - name: Prepare API Tests
         run: |
           cd v3/postman
-          echo '[{ "key": "baseUrl", "value": "${{ vars.PUBLIC_URL }}" }]' > environment.json
+          echo '[{ "key": "baseUrl", "value": "${{ needs.deploy.outputs.PUBLIC_URL }}" }]' > environment.json
 
       - name: Run API Tests
         uses: matt-ball/newman-action@master
