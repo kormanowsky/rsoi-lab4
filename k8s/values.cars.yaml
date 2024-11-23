@@ -1,4 +1,4 @@
 appName: "cars"
 appEnv: 
-  CONN_STRING: "$(POSTGRES_CONN_STRING)"
+  CONN_STRING: "postgres://postgres:$(POSTGRES_PASSWORD)@cars-postgresql:5432/postgres"
 hasPostgresql: true
