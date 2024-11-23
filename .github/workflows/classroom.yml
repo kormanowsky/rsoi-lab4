@@ -93,6 +93,7 @@ jobs:
           IMAGE_TAG: v.${{ github.sha }}
           DOCKER_USERNAME: ${{ secrets.YC_DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.YC_DOCKER_PASSWORD }}
+          REINSTALL_DB: ${{ vars.REINSTALL_DB }}
         run: | 
           cd k8s
           kubectl proxy --port 8080 --kubeconfig .kubeconfig &
@@ -146,28 +147,28 @@ jobs:
             --kubeconfig .kubeconfig \
             rsoi-lab4-ingress ./rsoi-lab4-ingress
 
-          helm upgrade \
+          test -n "$REINSTALL_DB" && (helm upgrade \
             --install --atomic --wait --force \
             -f values.cars-postgresql.yaml \
             --kubeconfig .kubeconfig \
-            cars-postgresql ./postgresql
+            cars-postgresql ./postgresql) || true
 
-          helm upgrade \
+          test -n "$REINSTALL_DB" && (helm upgrade \
             --install --atomic --wait --force \
             -f values.rental-postgresql.yaml \
             --kubeconfig .kubeconfig \
-            rental-postgresql ./postgresql
+            rental-postgresql ./postgresql) || true
 
-          helm upgrade \
+          test -n "$REINSTALL_DB" && (helm upgrade \
             --install --atomic --wait --force \
             -f values.payment-postgresql.yaml \
             --kubeconfig .kubeconfig \
-            payment-postgresql ./postgresql
+            payment-postgresql ./postgresql) || true
 
-          helm upgrade \
+          test -n "$REINSTALL_DB" && (helm upgrade \
             --install --atomic --wait --force \
             --kubeconfig .kubeconfig \
-            gateway-redis ./redis
+            gateway-redis ./redis) || true
 
           helm upgrade \
             --install --atomic --wait --force \
