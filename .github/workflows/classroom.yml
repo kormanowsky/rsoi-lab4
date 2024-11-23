@@ -28,7 +28,7 @@ jobs:
         run: cd services/rental && npm ci && npm run test
 
       - name: Run Gateway Unit Tests 
-        run: cd services/gateway && npm ci && npm run tes
+        run: cd services/gateway && npm ci && npm run test
 
   images: 
     name: Build And Publish Images 
