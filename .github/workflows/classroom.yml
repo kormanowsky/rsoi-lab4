@@ -138,16 +138,6 @@ jobs:
             --version 20.3.0 \
             --untar
 
-          helm upgrade \
-            --install --atomic --wait --force \
-            --kubeconfig .kubeconfig \
-            ingress-nginx ./ingress-nginx
-
-          helm upgrade \
-            --install --atomic --wait --force \
-            --kubeconfig .kubeconfig \
-            rsoi-lab4-ingress ./rsoi-lab4-ingress
-
           test -n "$REINSTALL_DB" && (helm upgrade \
             --install --atomic --wait --force \
             -f values.cars-postgresql.yaml \
@@ -198,6 +188,16 @@ jobs:
             --set appImage="cr.yandex/$CR_REGISTRY/$CR_REPOSITORY-gateway:$IMAGE_TAG" \
             --kubeconfig .kubeconfig \
             gateway ./rsoi-lab4-app
+
+          helm upgrade \
+            --install --atomic --wait --force \
+            --kubeconfig .kubeconfig \
+            ingress-nginx ./ingress-nginx
+
+          helm upgrade \
+            --install --atomic --wait --force \
+            --kubeconfig .kubeconfig \
+            rsoi-lab4-ingress ./rsoi-lab4-ingress
 
           echo "PUBLIC_URL=http://$(kubectl get services ingress-nginx-controller -o jsonpath='{.status.loadBalancer.ingress[0].ip}')" >> "$GITHUB_OUTPUT"
     outputs: 
