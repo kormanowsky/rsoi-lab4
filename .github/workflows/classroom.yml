@@ -154,13 +154,6 @@ jobs:
 
           helm upgrade \
             --install --atomic --wait --force \
-            -f values.gateway.yaml \
-            --set appImage="cr.yandex/$CR_REGISTRY/$CR_REPOSITORY-gateway:$IMAGE_TAG" \
-            --kubeconfig .kubeconfig \
-            gateway ./rsoi-lab4-app
-
-          helm upgrade \
-            --install --atomic --wait --force \
             -f values.cars.yaml \
             --set appImage="cr.yandex/$CR_REGISTRY/$CR_REPOSITORY-cars:$IMAGE_TAG" \
             --kubeconfig .kubeconfig \
@@ -179,6 +172,13 @@ jobs:
             --set appImage="cr.yandex/$CR_REGISTRY/$CR_REPOSITORY-payment:$IMAGE_TAG" \
             --kubeconfig .kubeconfig \
             payment ./rsoi-lab4-app
+
+          helm upgrade \
+            --install --atomic --wait --force \
+            -f values.gateway.yaml \
+            --set appImage="cr.yandex/$CR_REGISTRY/$CR_REPOSITORY-gateway:$IMAGE_TAG" \
+            --kubeconfig .kubeconfig \
+            gateway ./rsoi-lab4-app
 
       - name: Prepare API Tests
         run: |
