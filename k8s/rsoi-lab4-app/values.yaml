@@ -4,4 +4,4 @@ appPort: 8000
 appEnv:
 exposedPort: 80
 registryCredSecret: "regcred"
-replicas: 2
+replicas: 1
